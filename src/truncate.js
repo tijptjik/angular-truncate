@@ -1,18 +1,37 @@
 angular.module('truncate', [])
     .filter('characters', function () {
-        return function (input, chars, breakOnWord) {
+        return function (input, chars, lang, breakOnWord) {
+            var lang = lang || 'en'
+            if (lang != 'en'){
+                chars = Math.floor(chars / 2.5);
+            }
             if (isNaN(chars)) return input;
             if (chars <= 0) return '';
+            // strip images
+            input = input.replace(/<img(?:.*?)>/g,'')
+            // strip tables
+            input = input.replace(/<table>(?:.*?)table>/g,'')
+            // strip captions
+            input = input.replace(/<em>(?:.*?)>/g,'')
+            // strip horizontal rules
+            // input = input.replace(/<hr>/g,'')
+            // strong text
+            input = input.replace(/<strong>(?:.*?)strong>/g,'')
+            // Strip out HTML
+            input = input.replace(/<[^>]*>/g,'')
+            // Strip out Dead Tags
+            // input = input.replace(/<\/p><p>/g,'')
             if (input && input.length > chars) {
+
                 input = input.substring(0, chars);
 
-                if (!breakOnWord) {
+                if (!breakOnWord && lang == 'en') {
                     var lastspace = input.lastIndexOf(' ');
                     //get last space
                     if (lastspace !== -1) {
                         input = input.substr(0, lastspace);
                     }
-                }else{
+                } else {
                     while(input.charAt(input.length-1) === ' '){
                         input = input.substr(0, input.length -1);
                     }
