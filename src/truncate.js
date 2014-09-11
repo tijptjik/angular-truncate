@@ -12,7 +12,7 @@ angular.module('truncate', [])
             // strip tables
             input = input.replace(/<table>(?:.*?)table>/g,'')
             // strip captions
-            input = input.replace(/<em>(?:.*?)>/g,'')
+            input = input.replace(/<em>(?:.*?)em>/g,'')
             // strip horizontal rules
             // input = input.replace(/<hr>/g,'')
             // strong text
